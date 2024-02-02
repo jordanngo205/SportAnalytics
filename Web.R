@@ -1,5 +1,6 @@
 library(shiny)
 library(rvest)
+library(tidyverse)
 library(gt)
 
 # Create a lookup table for full names to short names
@@ -133,6 +134,7 @@ server <- function(input, output) {
       
       # Convert to gt table and adjust column widths
       gt_table <- merged_roster %>%
+        separate_wider_delim(cols = FG, delim = "-", names = c("FGM", "FGA")) %>% 
         gt() %>%
         cols_width(
           Player ~ px(120),
@@ -142,7 +144,8 @@ server <- function(input, output) {
           GP ~ px(60),
           Mins ~ px(60),
           Mpg ~ px(60),
-          FG ~ px(100),
+          FGM ~ px(100),
+          FGA ~ px(100),
           FT ~ px(100),
           Rebounds ~ px(110),
           RPG ~ px(70),
