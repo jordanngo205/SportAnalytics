@@ -78,7 +78,7 @@ scrape_roster_from_url <- function(short_name) {
   colnames(roster_df1) <- c("No", "Player", "Position", "Ht", "Elig", "Hometown", "High_School")
   
   # Rename columns for clarity
-  colnames(roster_df2) <- c("Player", "GP",	"Mins",	"Mpg",	"3Pt",	"3Pt%", "FG","FG%",	"FT", "FTs%",	"Rebounds", " allRebounds",	"RPG",	"PF",	"A"	,"To",	"Bl",	"St",	"Pts",	"PPG")
+  colnames(roster_df2) <- c("Player", "GP",	"Mins",	"Mpg",	"3Pt",	"3P%", "FG","FG%",	"FT", "FT%",	"Rebounds", " REB",	"RPG",	"PF",	"A"	,"To",	"Bl",	"St",	"Pts",	"PPG")
   
   return(list(roster_df1 = roster_df1, roster_df2 = roster_df2))
 }
@@ -135,6 +135,9 @@ server <- function(input, output) {
       # Convert to gt table and adjust column widths
       gt_table <- merged_roster %>%
         separate_wider_delim(cols = FG, delim = "-", names = c("FGM", "FGA")) %>% 
+        separate_wider_delim(cols = `3Pt`, delim = "-", names = c("3PM", "3PA")) %>% 
+        separate_wider_delim(cols = FT, delim = "-", names = c("FTM", "FTA")) %>% 
+        separate_wider_delim(cols = Rebounds, delim = "-", names = c("OREB", "DREB")) %>% 
         gt() %>%
         cols_width(
           Player ~ px(120),
@@ -144,10 +147,10 @@ server <- function(input, output) {
           GP ~ px(60),
           Mins ~ px(60),
           Mpg ~ px(60),
-          FGM ~ px(100),
-          FGA ~ px(100),
-          FT ~ px(100),
-          Rebounds ~ px(110),
+          FGM ~ px(70),
+          FGA ~ px(70),
+          FGM ~ px(70),
+          FGA ~ px(70),
           RPG ~ px(70),
           PF ~ px(70),
           A ~ px(70),
@@ -156,7 +159,7 @@ server <- function(input, output) {
           St ~ px(70),
           Pts ~ px(70),
           PPG ~ px(70),
-          everything()  ~ px(100)
+          everything()  ~ px(70),
         )
       
       # Apply style to highlight the first row
