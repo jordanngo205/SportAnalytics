@@ -78,7 +78,7 @@ scrape_roster_from_url <- function(short_name) {
   colnames(roster_df1) <- c("No", "Player", "Position", "Ht", "Elig", "Hometown", "High_School")
   
   # Rename columns for clarity
-  colnames(roster_df2) <- c("Player", "GP",	"Mins",	"Mpg",	"3Pt",	"3P%", "FG","FG%",	"FT", "FT%",	"Rebounds", " REB",	"RPG",	"PF",	"A"	,"To",	"Bl",	"St",	"Pts",	"PPG")
+  colnames(roster_df2) <- c("Player", "GP",	"Mins",	"Mpg",	"3Pt",	"3P%", "FG","FG%",	"FT", "FT%",	"Rebounds", "REB",	"RPG",	"PF",	"A"	,"To",	"Bl",	"St",	"Pts",	"PPG")
   
   return(list(roster_df1 = roster_df1, roster_df2 = roster_df2))
 }
@@ -102,6 +102,15 @@ ui <- fluidPage(
              fluidRow(
                column(12, tableOutput("merged_roster_table"))
              )
+    ),
+    tabPanel("Scouting Report",
+             fluidRow(
+               column(12, h3("WATERLOO WOMEN’S BASKETBALL SCOUTING REPORT")),
+               column(12, h3(textOutput("team_name")))
+             ),
+             fluidRow(
+               column(12, tableOutput("top_players_table"))
+             )
     )
   )
 )
@@ -109,34 +118,40 @@ ui <- fluidPage(
 # Define server logic
 server <- function(input, output) {
   
-  # Reactive value to store roster data
-  roster_data <- reactive({
+  # Reactive value to store roster data and selected team name
+  roster_data <- reactiveValues(
+    roster_df1 = NULL,
+    roster_df2 = NULL,
+    team_name = NULL
+  )
+  
+  # Function to update roster data and team name
+  observeEvent(input$team, {
     short_name <- team_lookup[input$team]
-    if (is.na(short_name)) {
-      return(list(roster_df1 = NULL, roster_df2 = NULL))  # Return NULL if the team name is not found
-    } else {
-      scrape_roster_from_url(short_name)
+    if (!is.na(short_name)) {
+      data <- scrape_roster_from_url(short_name)
+      roster_data$roster_df1 <- data$roster_df1
+      roster_data$roster_df2 <- data$roster_df2
+      roster_data$team_name <- input$team
     }
   })
   
   # Render the merged roster table based on selected team
   output$merged_roster_table <- render_gt({
-    roster_df1 <- roster_data()$roster_df1
-    roster_df2 <- roster_data()$roster_df2
+    roster_df1 <- roster_data$roster_df1
+    roster_df2 <- roster_data$roster_df2
     if (!is.null(roster_df1) && !is.null(roster_df2)) {
       # Merge the two tables using the "Player" column as primary key
       merged_roster <- merge(roster_df1, roster_df2, by = "Player", all = TRUE)
       
       # Remove columns "Elig", "Hometown", and "High_School"
       merged_roster <- merged_roster[, !names(merged_roster) %in% c("Elig", "Hometown", "High_School")]
-      print(merged_roster)
-      str(merged_roster)
       
       # Convert to gt table and adjust column widths
       gt_table <- merged_roster %>%
         separate_wider_delim(cols = FG, delim = "-", names = c("FGM", "FGA")) %>% 
-        separate_wider_delim(cols = `3Pt`, delim = "-", names = c("3PM", "3PA")) %>% 
         separate_wider_delim(cols = FT, delim = "-", names = c("FTM", "FTA")) %>% 
+        separate_wider_delim(cols = `3Pt`, delim = "-", names = c("3PM", "3PA")) %>% 
         separate_wider_delim(cols = Rebounds, delim = "-", names = c("OREB", "DREB")) %>% 
         gt() %>%
         cols_width(
@@ -149,8 +164,8 @@ server <- function(input, output) {
           Mpg ~ px(60),
           FGM ~ px(70),
           FGA ~ px(70),
-          FGM ~ px(70),
-          FGA ~ px(70),
+          FTM ~ px(70),
+          FTA ~ px(70),
           RPG ~ px(70),
           PF ~ px(70),
           A ~ px(70),
@@ -175,9 +190,25 @@ server <- function(input, output) {
     }
   })
   
+  # Render the top players table for the Scouting Report tab
+  output$top_players_table <- renderTable({
+    roster_df1 <- roster_data$roster_df1
+    roster_df2 <- roster_data$roster_df2
+    if (!is.null(roster_df1) && !is.null(roster_df2)) {
+      merged_roster <- merge(roster_df1, roster_df2, by = "Player", all = TRUE)
+      merged_roster <- merged_roster[, !names(merged_roster) %in% c("Elig", "Hometown", "High_School")]
+      top_players <- merged_roster[order(-merged_roster$Mpg), ][2:9, ]
+      return(top_players)
+    } else {
+      return(NULL)
+    }
+  })
   
+  # Render the selected team name for the Scouting Report tab
+  output$team_name <- renderText({
+    roster_data$team_name
+  })
 }
-
 
 # Run the application
 shinyApp(ui = ui, server = server)
