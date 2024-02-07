@@ -1,6 +1,6 @@
 suppressMessages(here::i_am("DVW Downloader.R"))
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(tidyverse, httr, jsonlite, sportyR, janitor)
+pacman::p_load(tidyverse, httr, jsonlite, sportyR, janitor, magick)
 
 # Get the access token from Sources > login > Fetches > token after clicking 
 # 'Inspect Element'. Access tokens last for 1 hour so the one you see here is expired
