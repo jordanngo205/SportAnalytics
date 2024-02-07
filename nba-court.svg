@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" width="500.07" height="470.066" viewBox="0 0 500.07 470.07" enable-background="new 0 0 500.07 470.07" xml:space="preserve">
+	<g>
+		<path fill="none" stroke-width="2.00028" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 248.986,222.151C 282.22,222.151 309.161,248.924 309.161,281.951L 309.159,282.41L 188.813,282.41L 188.811,281.951C 188.811,248.924 215.752,222.151 248.986,222.151 Z M 169.517,470.066L 169.517,282.493L 329.539,282.493L 329.539,470.066"/>
+		<path fill="none" stroke-width="2.00028" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 29.3721,471.066L 29.3721,332.145L 29.1596,332.145C 63.4038,245.782 149.306,184.538 249.861,184.538C 350.416,184.538 436.318,245.782 470.563,332.145L 470.434,332.145L 470.434,471.066"/>
+		<rect x="162.578" y="390.424" fill="#000000" fill-opacity="1" stroke-width="1.00014" stroke-linejoin="round" width="6.75095" height="11.0015"/>
+		<rect x="329.727" y="390.549" fill="#000000" fill-opacity="1" stroke-width="1.00014" stroke-linejoin="round" width="6.75095" height="11.0015"/>
+		<rect x="162.703" y="358.045" fill="#000000" fill-opacity="1" stroke-width="1.00014" stroke-linejoin="round" width="6.75095" height="4.25058"/>
+		<rect x="329.977" y="357.982" fill="#000000" fill-opacity="1" stroke-width="1.00014" stroke-linejoin="round" width="6.75098" height="4.25055"/>
+		<rect x="329.727" y="327.978" fill="#000000" fill-opacity="1" stroke-width="1.00014" stroke-linejoin="round" width="6.75095" height="4.25058"/>
+		<rect x="162.828" y="327.853" fill="#000000" fill-opacity="1" stroke-width="1.00014" stroke-linejoin="round" width="6.75095" height="4.25055"/>
+		<line fill="none" stroke-width="2.00028" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="500.07" y1="190.855" x2="480.496" y2="190.855"/>
+		<line fill="none" stroke-width="2.00028" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="236.672" y1="436.973" x2="262.426" y2="436.973"/>
+		<ellipse fill="none" stroke-width="2.00028" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" cx="249.486" cy="424.783" rx="10.3139" ry="10.3139"/>
+		<path fill="none" stroke-width="2.00028" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 309.873,0C 309.875,0.220337 309.876,0.440948 309.876,0.661865C 309.876,33.5736 282.935,60.2539 249.701,60.2539C 216.468,60.2539 189.526,33.5736 189.526,0.661865C 189.526,0.440948 189.528,0.220337 189.53,0"/>
+		<path fill="none" stroke-width="2.00028" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 209.693,426.427C 209.693,426.427 209.644,425.136 209.644,424.484C 209.644,403.204 227.531,385.953 249.597,385.953C 271.663,385.953 289.551,403.204 289.551,424.484C 289.551,425.136 289.534,425.783 289.501,426.427"/>
+	</g>
+</svg>
