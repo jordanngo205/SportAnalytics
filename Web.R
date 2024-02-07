@@ -118,6 +118,8 @@ ui <- fluidPage(
 # Define server logic
 server <- function(input, output) {
   
+  all_data <- read_csv("data.csv")
+  
   # Reactive value to store roster data and selected team name
   roster_data <- reactiveValues(
     roster_df1 = NULL,
@@ -133,6 +135,7 @@ server <- function(input, output) {
       roster_data$roster_df1 <- data$roster_df1
       roster_data$roster_df2 <- data$roster_df2
       roster_data$team_name <- input$team
+      
     }
   })
   
