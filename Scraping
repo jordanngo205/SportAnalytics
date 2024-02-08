@@ -31,11 +31,19 @@ scrape_roster_from_url <- function(short_name) {
    # Merge the two tables using the "Player" column as primary key
       merged_roster <- merge(roster_df1, roster_df2, by = "Player", all = TRUE)
       
+      merged_roster <- merged_roster %>%
+        separate_wider_delim(cols = FG, delim = "-", names = c("FGM", "FGA")) %>% 
+        separate_wider_delim(cols = FT, delim = "-", names = c("FTM", "FTA")) %>% 
+        separate_wider_delim(cols = `3Pt`, delim = "-", names = c("3PM", "3PA")) %>% 
+        separate_wider_delim(cols = Rebounds, delim = "-", names = c("OREB", "DREB"))
+      
       #Remove columns "Elig", "Hometown", and "High_School"
       merged_roster <- merged_roster[, !names(merged_roster) %in% c("Elig", "Hometown", "High_School")] %>% 
         mutate(across(c(Player, Position, Ht), as.character),
                across(-c(Player, Position, Ht), as.numeric),
                team = short_name)
+      
+
       return(merged_roster)
 }
 
@@ -58,8 +66,8 @@ team_lookup <- c("Acadia Axewomen" = "Acadia",
                  "Mount Royal University Cougars" = "Mount%20Royal",
                  "Regina Cougars" = "Regina",
                  "Saskatchewan Huskies" = "Saskatchewan",
-                 "Thompson Rivers Wolfpack" = "Thompson_Rivers",
-                 "Trinity Western Spartans" = "Trinity_Western",
+                 "Thompson Rivers Wolfpack" = "Thompson%20Rivers",
+                 "Trinity Western Spartans" = "Trinity%20Western",
                  "UBC Thunderbirds" = "UBC",
                  "UBC Okanagan Heat" = "UBC%20Okanagan",
                  "UFV Cascades" = "UFV",
@@ -95,8 +103,8 @@ for (team in team_lookup) {
   new_data <- scrape_roster_from_url(team)
   all_data <- bind_rows(all_data, new_data)
   #Sys.sleep(1)
-  
 }
 
+  
 write_csv(all_data, "data.csv")
 
