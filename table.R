@@ -78,9 +78,9 @@ ui <- fluidPage(
              tags$tbody(
                tags$tr( 
                        tags$th(style = "width: 5%;", "Photo"),  
-                       tags$th(style = "width: 15%;", "# LAST NAME"),  
-                       tags$th(style = "width: 15%;", "POS - H/T - DH"),  
-                       tags$th(style = "width: 65%;", "23-24 STATS")  
+                       tags$th(style = "width: 15%;", textOutput("starter1")),  
+                       tags$th(style = "width: 15%;", textOutput("pos_ht1")),  
+                       tags$th(style = "width: 65%;",  textOutput("stats_1"))  
                ),
                tags$tr(
                  tags$td(style = "width: 5%;", class="data-cell row-height", ""),
@@ -95,9 +95,9 @@ ui <- fluidPage(
                ),
                tags$tr( 
                  tags$th(style = "width: 5%;", "Photo"),  
-                 tags$th(style = "width: 15%;", class="data-cell row-height", "# LAST NAME"),  
-                 tags$th(style = "width: 15%;", class="data-cell row-height", "POS - H/T - DH"),  
-                 tags$th(style = "width: 65%;", class="data-cell row-height", "23-24 STATS")  
+                 tags$th(style = "width: 15%;", class="data-cell row-height", textOutput("starter2")),  
+                 tags$th(style = "width: 15%;", class="data-cell row-height", textOutput("pos_ht2")),  
+                 tags$th(style = "width: 65%;", class="data-cell row-height",  textOutput("stats_2"))
                ),
                tags$tr(
                  tags$td(style = "width: 5%;", class="data-cell custom-height", ""),
@@ -111,9 +111,9 @@ ui <- fluidPage(
                  )
                ),               tags$tr( 
                  tags$th(style = "width: 5%;", "Photo"),  
-                 tags$th(style = "width: 15%;", class="data-cell custom-height", "# LAST NAME"),  
-                 tags$th(style = "width: 15%;", class="data-cell custom-height", "POS - H/T - DH"),  
-                 tags$th(style = "width: 65%;", class="data-cell custom-height", "23-24 STATS")  
+                 tags$th(style = "width: 15%;", class="data-cell custom-height", textOutput("starter3")),  
+                 tags$th(style = "width: 15%;", class="data-cell custom-height", textOutput("pos_ht3")),  
+                 tags$th(style = "width: 65%;", class="data-cell custom-height",  textOutput("stats_3"))   
                ),
                tags$tr(
                  tags$td(style = "width: 5%;", class="data-cell custom-height", ""),
@@ -127,9 +127,9 @@ ui <- fluidPage(
                  )
                ),               tags$tr( 
                  tags$th(style = "width: 5%;", "Photo"),  
-                 tags$th(style = "width: 15%;", class="data-cell custom-height", "# LAST NAME"),  
-                 tags$th(style = "width: 15%;", class="data-cell custom-height", "POS - H/T - DH"),  
-                 tags$th(style = "width: 65%;", class="data-cell custom-height", "23-24 STATS")  
+                 tags$th(style = "width: 15%;", class="data-cell custom-height", textOutput("starter4")),  
+                 tags$th(style = "width: 15%;", class="data-cell custom-height", textOutput("pos_ht4")),  
+                 tags$th(style = "width: 65%;", class="data-cell custom-height",  textOutput("stats_4"))  
                ),
                tags$tr(
                  tags$td(style = "width: 5%;", class="data-cell custom-height", ""),
@@ -143,9 +143,9 @@ ui <- fluidPage(
                  )
                ),               tags$tr( 
                  tags$th(style = "width: 5%;", "Photo"),  
-                 tags$th(style = "width: 15%;", class="data-cell custom-height", "# LAST NAME"),  
-                 tags$th(style = "width: 15%;", class="data-cell custom-height", "POS - H/T - DH"),  
-                 tags$th(style = "width: 65%;", class="data-cell custom-height", "23-24 STATS")  
+                 tags$th(style = "width: 15%;", class="data-cell custom-height", textOutput("starter5")),  
+                 tags$th(style = "width: 15%;", class="data-cell custom-height", textOutput("pos_ht5")),  
+                 tags$th(style = "width: 65%;", class="data-cell custom-height",  textOutput("stats_5"))
                ),
                tags$tr(
                  tags$td(style = "width: 5%;", class="data-cell custom-height", ""),
@@ -166,9 +166,9 @@ ui <- fluidPage(
                ),
                tags$tr( 
                  tags$th(style = "width: 5%;", "Photo"),  
-                 tags$th(style = "width: 15%;", class="data-cell custom-height", "# LAST NAME"),  
-                 tags$th(style = "width: 15%;", class="data-cell custom-height", "POS - H/T - DH"),  
-                 tags$th(style = "width: 65%;", class="data-cell custom-height", "23-24 STATS")  
+                 tags$th(style = "width: 15%;", class="data-cell custom-height", textOutput("reserve1")),  
+                 tags$th(style = "width: 15%;", class="data-cell custom-height", textOutput("pos_ht_reserve1")),  
+                 tags$th(style = "width: 65%;", class="data-cell custom-height", textOutput("reserve_stats_1")),   
                ),
                tags$tr(
                  tags$td(style = "width: 5%;", class="data-cell custom-height", ""),
@@ -182,9 +182,9 @@ ui <- fluidPage(
                  )
                ),               tags$tr( 
                  tags$th(style = "width: 5%;", "Photo"),  
-                 tags$th(style = "width: 15%;", class="data-cell custom-height", "# LAST NAME"),  
-                 tags$th(style = "width: 15%;", class="data-cell custom-height", "POS - H/T - DH"),  
-                 tags$th(style = "width: 65%;", class="data-cell custom-height", "23-24 STATS")  
+                 tags$th(style = "width: 15%;", class="data-cell custom-height", textOutput("reserve2")),  
+                 tags$th(style = "width: 15%;", class="data-cell custom-height", textOutput("pos_ht_reserve2")),  
+                 tags$th(style = "width: 65%;", class="data-cell custom-height", textOutput("reserve_stats_2")),   
                ),
                tags$tr(
                  tags$td(style = "width: 5%;", class="data-cell custom-height", ""),
@@ -198,9 +198,9 @@ ui <- fluidPage(
                  )
                ),               tags$tr( 
                  tags$th(style = "width: 5%;", "Photo"),  
-                 tags$th(style = "width: 15%;", class="data-cell custom-height", "# LAST NAME"),  
-                 tags$th(style = "width: 15%;", class="data-cell custom-height", "POS - H/T - DH"),  
-                 tags$th(style = "width: 65%;", class="data-cell custom-height", "23-24 STATS")  
+                 tags$th(style = "width: 15%;", class="data-cell custom-height", textOutput("reserve3")),  
+                 tags$th(style = "width: 15%;", class="data-cell custom-height", textOutput("pos_ht_reserve3")), 
+                 tags$th(style = "width: 65%;", class="data-cell custom-height", textOutput("reserve_stats_3")),   
                ),
                tags$tr(
                  tags$td(style = "width: 5%;", class="data-cell custom-height", ""),
