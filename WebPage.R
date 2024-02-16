@@ -328,14 +328,15 @@ read_and_process_player_data <- function(team_selected) {
       team_name = NULL
     )
     
-    # Function to update roster data and team name
-    observeEvent(input$team, {
-      short_name <- team_lookup[input$team]
-      if (!is.na(short_name)) {
-        data <- scrape_roster_from_url(short_name)
-        roster_data$roster_df1 <- data$roster_df1
-        roster_data$roster_df2 <- data$roster_df2
-        roster_data$team_name <- input$team
+  # Function to update roster data and team name
+  observeEvent(input$team, {
+    short_name <- team_lookup[input$team]
+    if (!is.na(short_name)) {
+      data <- all_data %>% 
+        filter(team == short_name) # Assuming 'Team' column in your CSV matches the short name
+      roster_data$roster_df1 <- data
+      roster_data$roster_df2 <- data
+      roster_data$team_name <- input$team
         
       }
     })
@@ -345,8 +346,8 @@ read_and_process_player_data <- function(team_selected) {
       roster_df1 <- roster_data$roster_df1
       roster_df2 <- roster_data$roster_df2
       if (!is.null(roster_df1) && !is.null(roster_df2)) {
-        # Select all columns except the last one
-        roster_df1 <- roster_df1 %>% select(-last_col())
+        # Select all columns except the last five
+       roster_df1 <- roster_df1 %>% select(-last_col(), -last_col(offset = 1), -last_col(offset = 2), -last_col(offset = 3), -last_col(offset = 4))
         # You can perform any necessary data manipulation here before displaying the table
         gt_table <- roster_df1 %>% 
           gt() %>%
