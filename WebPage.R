@@ -345,19 +345,12 @@ read_and_process_player_data <- function(team_selected) {
       roster_df1 <- roster_data$roster_df1
       roster_df2 <- roster_data$roster_df2
       if (!is.null(roster_df1) && !is.null(roster_df2)) {
-        # Merge the two tables using the "Player" column as primary key
-        merged_roster <- merge(roster_df1, roster_df2, by = "Player", all = TRUE)
-        
-        # Remove columns "Elig", "Hometown", and "High_School"
-        merged_roster <- merged_roster[, !names(merged_roster) %in% c("Elig", "Hometown", "High_School")]
-        
-        # Convert to gt table and adjust column widths
-        gt_table <- merged_roster %>%
-          separate_wider_delim(cols = FG, delim = "-", names = c("FGM", "FGA")) %>% 
-          separate_wider_delim(cols = FT, delim = "-", names = c("FTM", "FTA")) %>% 
-          separate_wider_delim(cols = `3Pt`, delim = "-", names = c("3PM", "3PA")) %>% 
-          separate_wider_delim(cols = Rebounds, delim = "-", names = c("OREB", "DREB")) %>% 
+        # Select all columns except the last one
+        roster_df1 <- roster_df1 %>% select(-last_col())
+        # You can perform any necessary data manipulation here before displaying the table
+        gt_table <- roster_df1 %>% 
           gt() %>%
+          # Define column widths or any other styling you want
           cols_width(
             Player ~ px(120),
             No ~ px(60),
