@@ -28,23 +28,29 @@ scrape_roster_from_url <- function(short_name) {
   # Rename columns for clarity
   colnames(roster_df2) <- c("Player", "GP",	"Mins",	"Mpg",	"3Pt",	"3P%", "FG","FG%",	"FT", "FT%",	"Rebounds", "REB",	"RPG",	"PF",	"A"	,"To",	"Bl",	"St",	"Pts",	"PPG")
   
-   # Merge the two tables using the "Player" column as primary key
-      merged_roster <- merge(roster_df1, roster_df2, by = "Player", all = TRUE)
-      
-      merged_roster <- merged_roster %>%
-        separate_wider_delim(cols = FG, delim = "-", names = c("FGM", "FGA")) %>% 
-        separate_wider_delim(cols = FT, delim = "-", names = c("FTM", "FTA")) %>% 
-        separate_wider_delim(cols = `3Pt`, delim = "-", names = c("3PM", "3PA")) %>% 
-        separate_wider_delim(cols = Rebounds, delim = "-", names = c("OREB", "DREB"))
-      
-      #Remove columns "Elig", "Hometown", and "High_School"
-      merged_roster <- merged_roster[, !names(merged_roster) %in% c("Elig", "Hometown", "High_School")] %>% 
-        mutate(across(c(Player, Position, Ht), as.character),
-               across(-c(Player, Position, Ht), as.numeric),
-               team = short_name)
-      
-
-      return(merged_roster)
+  # Merge the two tables using the "Player" column as primary key
+  merged_roster <- merge(roster_df1, roster_df2, by = "Player", all = TRUE)
+  
+  merged_roster <- merged_roster %>%
+    separate_wider_delim(cols = FG, delim = "-", names = c("FGM", "FGA")) %>% 
+    separate_wider_delim(cols = FT, delim = "-", names = c("FTM", "FTA")) %>% 
+    separate_wider_delim(cols = `3Pt`, delim = "-", names = c("3PM", "3PA")) %>% 
+    separate_wider_delim(cols = Rebounds, delim = "-", names = c("OREB", "DREB"))
+  
+  
+  # Remove columns "Elig", "Hometown", and "High_School"
+  merged_roster <- merged_roster[, !names(merged_roster) %in% c("Elig", "Hometown", "High_School")] %>% 
+    mutate(across(c(Player, Position, Ht), as.character),
+           across(-c(Player, Position, Ht), as.numeric),
+           team = short_name,
+           APG = round(A / GP, 1),  # Calculate Assists per game and round to 1 decimal place
+           SPG = round(St / GP, 1),  # Calculate Steals per game and round to 1 decimal place
+           BPG = round(Bl / GP, 1),  # Calculate Blocks per game and round to 1 decimal place
+           ToPG = round(To / GP, 1))   # Calculate Turnovers per game and round to 1 decimal place
+  
+  
+  
+  return(merged_roster)
 }
 
 
@@ -105,6 +111,6 @@ for (team in team_lookup) {
   #Sys.sleep(1)
 }
 
-  
+
 write_csv(all_data, "data.csv")
 
