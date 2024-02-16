@@ -211,6 +211,97 @@ server <- function(input, output) {
   output$team_name <- renderText({
     roster_data$team_name
   })
+
+    # Reactive expression to fetch and store player data
+  reactive_player_data <- reactive({
+    team_selected <- input$team  # Assuming there's an input in UI to select team
+    short_name <- team_lookup[team_selected]
+    if (!is.na(short_name)) {
+      read_and_process_player_data(short_name)
+    } else {
+      list(starters = NULL, key_reserves = NULL)
+    }
+  })
+  
+  # Assuming reactive_player_data() fetches and processes the data
+  # Dynamically populate scouting report table
+  observe({
+    player_data <- reactive_player_data()
+    starters <- player_data$starters
+    key_reserves <- player_data$key_reserves
+    
+    # Populate starters
+    if (!is.null(starters) && nrow(starters) >= 5) {
+      output$starter1 <- renderText({ starters$Player[1] })
+      output$starter2 <- renderText({ starters$Player[2] })
+      output$starter3 <- renderText({ starters$Player[3] })
+      output$starter4 <- renderText({ starters$Player[4] })
+      output$starter5 <- renderText({ starters$Player[5] })
+    }
+    
+    # Populate key reserves
+    if (!is.null(key_reserves) && nrow(key_reserves) >= 3) {
+      output$reserve1 <- renderText({ key_reserves$Player[1] })
+      output$reserve2 <- renderText({ key_reserves$Player[2] })
+      output$reserve3 <- renderText({ key_reserves$Player[3] })
+    }
+    
+    # Populate starters' POS-H/T
+    if (!is.null(starters) && nrow(starters) >= 5) {
+      output$pos_ht1 <- renderText({ paste(starters$Position[1], ",", starters$Ht[1]) })
+      output$pos_ht2 <- renderText({ paste(starters$Position[2], ",", starters$Ht[2]) })
+      output$pos_ht3 <- renderText({ paste(starters$Position[3], ",", starters$Ht[3]) })
+      output$pos_ht4 <- renderText({ paste(starters$Position[4], ",", starters$Ht[4]) })
+      output$pos_ht5 <- renderText({ paste(starters$Position[5], ",", starters$Ht[5]) })
+    }
+    
+    # Populate key reserves' POS-H/T in a similar manner
+    if (!is.null(key_reserves) && nrow(key_reserves) >= 3) {
+      output$pos_ht_reserve1 <- renderText({ paste(key_reserves$Position[1], ",", key_reserves$Ht[1]) })
+      output$pos_ht_reserve2 <- renderText({ paste(key_reserves$Position[2], ",", key_reserves$Ht[2]) })
+      output$pos_ht_reserve3 <- renderText({ paste(key_reserves$Position[3], ",", key_reserves$Ht[3]) })
+    }
+    
+    # Pull key stats based on position
+    format_stats <- function(position, stats) {
+      if (position %in% c("Forward", "Post")) {
+        # Format for Forward/Post: PPG, RPG, FT%
+        paste(stats$PPG, "PPG,", stats$RPG, "RPG,", stats$`FT%`, "FT")
+      } 
+      else if (position %in% c("Guard", "Wing", "Guard/Forward")) {
+        # Format for Guard/Wing/Guard-Forward: PPG, 3P%, FT%
+        paste(stats$PPG, "PPG,", stats$`3P%`, "3P%,", stats$`FT%`, "FT")
+      } 
+      else {
+        "Stats Not Available"
+      }
+    }
+    
+    # Populate stats boxes for starters
+    if (!is.null(starters) && nrow(starters) >= 5) {
+      for (i in 1:5) {
+        local({
+          idx <- i  # Localize iterator for reactive context
+          output[[paste0("stats_", idx)]] <- renderText({
+            # Assuming format_stats formats stats based on the player's position
+            format_stats(starters$Position[idx], starters[idx, ])
+          })
+        })
+      }
+    }
+    
+    # Populate stats boxes for reserves
+    if (!is.null(key_reserves) && nrow(key_reserves) >= 3) {
+      for (i in 1:3) {  # Assuming you have 3 key reserves
+        local({
+          idx <- i  # Localize iterator for reactive context
+          output[[paste0("reserve_stats_", idx)]] <- renderText({
+            # Assuming format_stats formats stats based on the player's position
+            format_stats(key_reserves$Position[idx], key_reserves[idx, ])
+          })
+        })
+      }
+    }
 }
 
 # Run the application
